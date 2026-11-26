@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react'
 import ApiPortal from './ApiPortal'
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'
+
 function App() {
   const [employees, setEmployees] = useState([])
   const [loading, setLoading] = useState(true)
   const [showApiPortal, setShowApiPortal] = useState(false)
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/employees')
+    fetch(`${API_BASE_URL}/employees`)
       .then(response => response.json())
       .then(data => {
         setEmployees(data.employees)

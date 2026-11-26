@@ -1,4 +1,6 @@
 import { useState } from "react";
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
 function ApiPortal() {
   const [activeSection, setActiveSection] = useState("Overview");
@@ -54,7 +56,7 @@ function ApiPortal() {
   const testAPI = async () => {
     if (!currentEndpoint?.active) return;
 
-    let requestUrl = `http://127.0.0.1:8000${activeEndpoint}`;
+    let requestUrl = `${API_BASE_URL}${activeEndpoint}`;
     let options = {
       method: currentEndpoint.method,
     };
@@ -108,7 +110,7 @@ function ApiPortal() {
         ? `const rosterId = "b9257fc8-a05e-4869-89d7-63a89a46b8d0";
 
 const response = await fetch(
-  \`http://127.0.0.1:8000/rosters/\${rosterId}\`,
+  \`${API_BASE_URL}/rosters/\${rosterId}\`,
   {
     method: "PUT",
     headers: {
@@ -123,7 +125,7 @@ const response = await fetch(
 const data = await response.json();
 console.log(data);`
         : `const response = await fetch(
-  "http://127.0.0.1:8000${activeEndpoint}"
+  "${API_BASE_URL}${activeEndpoint}"
 );
 
 const data = await response.json();
@@ -136,7 +138,7 @@ console.log(data);`,
 roster_id = "b9257fc8-a05e-4869-89d7-63a89a46b8d0"
 
 response = requests.put(
-    f"http://127.0.0.1:8000/rosters/{roster_id}",
+   f"{API_BASE_URL}/rosters/{roster_id}",
     json={"status": "weekly_off"}
 )
 
@@ -144,17 +146,17 @@ print(response.json())`
         : `import requests
 
 response = requests.get(
-    "http://127.0.0.1:8000${activeEndpoint}"
+    "${API_BASE_URL}${activeEndpoint}"
 )
 
 print(response.json())`,
 
     cURL:
       currentEndpoint.method === "PUT"
-        ? `curl -X PUT "http://127.0.0.1:8000/rosters/b9257fc8-a05e-4869-89d7-63a89a46b8d0" \\
+        ? `curl -X PUT "${API_BASE_URL}/rosters/b9257fc8-a05e-4869-89d7-63a89a46b8d0" \\
   -H "Content-Type: application/json" \\
   -d '{"status":"weekly_off"}'`
-        : `curl -X GET "http://127.0.0.1:8000${activeEndpoint}"`,
+        : `curl -X GET "${API_BASE_URL}${activeEndpoint}"`,
   };
   const styles = `
     * { box-sizing: border-box; }
@@ -445,7 +447,7 @@ print(response.json())`,
 
           <button
             className="api-nav"
-            onClick={() => window.open("http://127.0.0.1:8000/docs", "_blank")}
+            onClick={() => window.open(`${API_BASE_URL}/docs`, "_blank")}
           >
             ↗ &nbsp; Swagger Documentation
           </button>
@@ -570,7 +572,7 @@ print(response.json())`,
                   }}
                 >
                   <input
-                    value={`http://127.0.0.1:8000${activeEndpoint}`}
+                    value={`${API_BASE_URL}${activeEndpoint}`}
                     readOnly
                     style={{
                       flex: 1,
